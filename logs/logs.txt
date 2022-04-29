@@ -1,0 +1,38 @@
+INFO:root:Device: cpu
+INFO:root:Corn detector loaded
+INFO:yolov5:[31m[1mrequirements:[0m seaborn>=0.11.0 not found and is required by YOLOv5, attempting auto-update...
+WARNING:yolov5:[31m[1mrequirements:[0m Command 'pip install 'seaborn>=0.11.0'' returned non-zero exit status 1.
+INFO:yolov5:YOLOv5  v6.1-144-g36b102a torch 1.11.0+cpu CPU
+
+INFO:yolov5:Fusing layers... 
+INFO:yolov5:YOLOv5m summary: 290 layers, 20852934 parameters, 0 gradients
+INFO:yolov5:Adding AutoShape... 
+INFO:root:Kernel detector loaded
+INFO:root:Linear model loaded
+INFO:ServerGlobalLog:
+
+SERVER START TIME: 2022-04-29 12:41:04
+
+INFO:uvicorn.error:Started server process [6960]
+INFO:uvicorn.error:Waiting for application startup.
+INFO:uvicorn.error:Application startup complete.
+INFO:uvicorn.error:Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:root:Device: cpu
+INFO:root:Corn detector loaded
+INFO:yolov5:[31m[1mrequirements:[0m seaborn>=0.11.0 not found and is required by YOLOv5, attempting auto-update...
+WARNING:yolov5:[31m[1mrequirements:[0m Command 'pip install 'seaborn>=0.11.0'' returned non-zero exit status 1.
+INFO:yolov5:YOLOv5  v6.1-144-g36b102a torch 1.11.0+cpu CPU
+
+INFO:yolov5:Fusing layers... 
+INFO:yolov5:YOLOv5m summary: 290 layers, 20852934 parameters, 0 gradients
+INFO:yolov5:Adding AutoShape... 
+INFO:root:Kernel detector loaded
+INFO:root:Linear model loaded
+INFO:ServerGlobalLog:
+
+SERVER START TIME: 2022-04-29 12:50:54
+
+INFO:uvicorn.error:Started server process [22760]
+INFO:uvicorn.error:Waiting for application startup.
+INFO:uvicorn.error:Application startup complete.
+INFO:uvicorn.error:Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
