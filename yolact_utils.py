@@ -26,8 +26,8 @@ def prep_display(dets_out, img, h, w, undo_transform=True, class_color=False, ma
     return t
 
 
-def detect_corn(inp, net):
-    classes, scores, box, mask = predict(inp, net)
+def detect_corn(inp, net, th=0.5):
+    classes, scores, box, mask = predict(inp, net, th=th)
     corns = []
     for i, bbox in enumerate(box):
 

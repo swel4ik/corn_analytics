@@ -43,15 +43,19 @@ app = FastAPI()
 
 
 @app.post("/api/corn", status_code=200)
-async def corn_count(file: bytes = File(...)):
+async def corn_count(files: List[bytes] = File(...)):
     # response = requests.get('https://i.pinimg.com/originals/bc/d4/fe/bcd4fec1da42391c62d7449f6df9ced3.jpg')
-    img = np.array(Image.open(BytesIO(file)).convert("RGB"))  # Image.open(BytesIO(file)).convert("RGB")
+    images = [np.array(Image.open(BytesIO(file)).convert("RGB")) for file in files]
+    print(len(images))
+    # img = np.array(Image.open(BytesIO(file)).convert("RGB"))  # Image.open(BytesIO(file)).convert("RGB")
+    img = images[0]
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     # img.save('out.png')
     corns = detect_corn(img, corn_detector)
+
     corn_kernels = {}
     for corn_num, corn in enumerate(corns):
-
+        cv2.imwrite(f'{corn_num}_.jpg', corn)
         if corn.shape[0] > corn.shape[1]:
             corn = cv2.rotate(corn, cv2.cv2.ROTATE_90_CLOCKWISE)
 
@@ -103,4 +107,5 @@ if __name__ == "__main__":
         'SERVER START TIME: {}'
         '\n'.format(strftime("%Y-%m-%d %H:%M:%S", gmtime()))
     )
+
     uvicorn.run(app, host="0.0.0.0", port=8000)
