@@ -100,6 +100,9 @@ async def kernel_count(corn: Corn):
 
     data = np.array(sum(_kernels))
 
+    if sum(_kernels) == 0:
+        return {"Summary": 0}
+
     prediction = linear_model.predict(data.reshape(1, -1))[0]
 
     return {
@@ -111,7 +114,7 @@ async def kernel_count(corn: Corn):
 async def kernel_statistics(statistics: CornStatistic):
     _statistics = statistics.dict()
     _id = str(uuid.uuid4())
-    os.mkdir(f'./statistics/{_statistics["title"]}_{_id}')
+    os.mkdir(f'./statistics/{_statistics["title"]}_{strftime("%Y-%m-%d %H:%M:%S", gmtime())}_{_id}')
 
     _files = [file.split(',')[-1] for file in _statistics['images']]
     base64_images = [base64.b64decode(file) for file in _files]
