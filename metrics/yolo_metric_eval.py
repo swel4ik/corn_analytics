@@ -12,7 +12,7 @@ def get_kernels_count(predict, th=0.):
 
 # images_dir = 'D:/all_corn/kernel_database/valid'
 #
-# kernel_detector = torch.hub.load('../yolov5', 'custom', path='yolov5/weights/yolov5m.pt',
+# kernel_detector = torch.hub.load('../yolo', 'custom', path='yolo/weights/yolov5m.pt',
 #                                  source='local')  # or yolov5m, yolov5l, yolov5x, custom
 #
 # # Images

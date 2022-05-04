@@ -50,8 +50,8 @@ corn_detector.eval()
 logging.info('Corn detector loaded')
 
 
-kernel_detector = torch.hub.load('yolov5', 'custom', path='yolov5/weights/best.pt',
-                           source='local')
+kernel_detector = torch.hub.load('yolo', 'custom', path='yolo/weights/best.pt',
+                                 source='local')
 kernel_detector.to(DEVICE)
 logging.info('Kernel detector loaded')
 
