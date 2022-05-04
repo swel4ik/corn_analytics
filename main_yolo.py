@@ -56,7 +56,7 @@ kernel_detector.to(DEVICE)
 logging.info('Kernel detector loaded')
 
 
-linear_model = pickle.load(open('./yolact/weights/linear_kernel_1.sav', 'rb'))
+linear_model = pickle.load(open('./yolact/weights/linear_kernel_1_2.sav', 'rb'))
 logging.info('Linear model loaded')
 
 app = FastAPI()
@@ -98,7 +98,9 @@ async def kernel_count(corn: Corn):
     elif len(_kernels) == 2:
         _kernels.append(np.mean(_kernels))
 
-    prediction = linear_model.predict([_kernels])[0]
+    data = np.array(sum(_kernels))
+
+    prediction = linear_model.predict(data.reshape(1, -1))[0]
 
     return {
         "Summary": prediction
