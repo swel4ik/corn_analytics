@@ -1,12 +1,14 @@
-import torch
 from typing import List
+import base64
+import json
 from time import gmtime, strftime
 from fastapi import FastAPI, File
 import uvicorn
 from yolact.yolact import Yolact
 from PIL import Image
 from io import BytesIO
-import requests
+import uuid
+import os
 import logging
 import torch
 from yolact_utils import detect_corn
@@ -21,8 +23,15 @@ class Corn(BaseModel):
     amounts: List[int]
 
 
+class CornStatistic(BaseModel):
+    user_count: int
+    predicted: int
+    images: List[str]
+    title: str
+
+
 CORN_THRESHOLD = 0.99
-KERNEL_THRESHOLD = 0.4
+KERNEL_THRESHOLD = 0.3
 
 
 app_log = logging.getLogger('ServerGlobalLog')
@@ -41,7 +50,7 @@ corn_detector.eval()
 logging.info('Corn detector loaded')
 
 
-kernel_detector = torch.hub.load('yolov5', 'custom', path='yolov5/weights/yolov5m.pt',
+kernel_detector = torch.hub.load('yolov5', 'custom', path='yolov5/weights/best.pt',
                            source='local')
 kernel_detector.to(DEVICE)
 logging.info('Kernel detector loaded')
@@ -54,8 +63,11 @@ app = FastAPI()
 
 
 @app.post("/api/corn", status_code=200)
-async def corn_count(files: List[bytes] = File(...)):
-    images = [np.array(Image.open(BytesIO(file)).convert("RGB")) for file in files]
+async def corn_count(files: List[str] = File(...)):
+    # images = [np.array(Image.open(BytesIO(file)).convert("RGB")) for file in files]
+    _files = [file.split(',')[-1] for file in files]
+    base64_images = [base64.b64decode(file) for file in _files]
+    images = [np.array(Image.open(BytesIO(base64_img)).convert("RGB")) for base64_img in base64_images]
     result = {}
     for img_num, img in enumerate(images):
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
@@ -90,6 +102,32 @@ async def kernel_count(corn: Corn):
 
     return {
         "Summary": prediction
+    }
+
+
+@app.post("/api/kernel/statistics", status_code=200)
+async def kernel_statistics(statistics: CornStatistic):
+    _statistics = statistics.dict()
+    _id = str(uuid.uuid4())
+    os.mkdir(f'./statistics/{_statistics["title"]}_{_id}')
+
+    _files = [file.split(',')[-1] for file in _statistics['images']]
+    base64_images = [base64.b64decode(file) for file in _files]
+    images = [Image.open(BytesIO(base64_img)).convert("RGB") for base64_img in base64_images]
+
+    for num, img in enumerate(images):
+        img.save(f'./statistics/{_statistics["title"]}_{_id}/img_{num}.jpg')
+
+    data = {
+        'Real number of kernels': _statistics['user_count'],
+        'Predicted number of kernels': _statistics['predicted']
+    }
+
+    with open(f"./statistics/{_statistics['title']}_{_id}/data.json", 'w', encoding='utf-8') as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
+
+    return {
+        'Success'
     }
 
 
