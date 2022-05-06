@@ -1,5 +1,6 @@
 from fastapi import FastAPI, File
 import uvicorn
+from argparse import ArgumentParser, Namespace
 from time import gmtime, strftime
 from typing import List
 import logging
@@ -100,7 +101,16 @@ async def kernel_count(corn: Corn):
         "Summary": prediction
     }
 
+
+def parse_args() -> Namespace:
+    parser = ArgumentParser(description='Corn analysis server')
+    parser.add_argument('--ip', required=False, type=str, default='0.0.0.0')
+    parser.add_argument('--port', required=False, type=int, default=8000)
+    return parser.parse_args()
+
+
 if __name__ == "__main__":
+    args = parse_args()
     logging.basicConfig(filename='logs.txt', level=logging.INFO)
     app_log.info(
         '\n\n'
@@ -108,4 +118,4 @@ if __name__ == "__main__":
         '\n'.format(strftime("%Y-%m-%d %H:%M:%S", gmtime()))
     )
 
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host=args.ip, port=args.port)

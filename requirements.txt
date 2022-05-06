@@ -55,4 +55,13 @@ typing_extensions==4.1.1
 uc-micro-py==1.0.1
 urllib3==1.26.9
 yarl==1.7.2
-sklearn
+sklearn~=0.0
+torch~=1.11.0
+PyYAML~=6.0
+tqdm~=4.64.0
+seaborn~=0.11.2
+torchvision~=0.12.0
+scipy~=1.8.0
+scikit-learn~=1.0.2
+setuptools~=62.1.0
+uvicorn~=0.17.6
