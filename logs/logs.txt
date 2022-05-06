@@ -1,0 +1,17 @@
+INFO:root:Device: cpu
+INFO:root:Corn detector loaded
+INFO:yolo:YOLOv5  v6.1-145-g9bbc20b torch 1.11.0+cpu CPU
+
+INFO:yolo:Fusing layers... 
+INFO:yolo:YOLOv5v5x summary: 444 layers, 86173414 parameters, 0 gradients
+INFO:yolo:Adding AutoShape... 
+INFO:root:Kernel detector loaded
+INFO:root:Linear model loaded
+INFO:ServerGlobalLog:
+
+SERVER START TIME: 2022-05-06 12:29:28
+
+INFO:uvicorn.error:Started server process [14656]
+INFO:uvicorn.error:Waiting for application startup.
+INFO:uvicorn.error:Application startup complete.
+INFO:uvicorn.error:Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)

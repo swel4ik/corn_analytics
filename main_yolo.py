@@ -65,7 +65,6 @@ app = FastAPI()
 
 @app.post("/api/corn", status_code=200)
 async def corn_count(files: List[str] = File(...)):
-    # images = [np.array(Image.open(BytesIO(file)).convert("RGB")) for file in files]
     _files = [file.split(',')[-1] for file in files]
     base64_images = [base64.b64decode(file) for file in _files]
     images = [np.array(Image.open(BytesIO(base64_img)).convert("RGB")) for base64_img in base64_images]
