@@ -1,4 +1,5 @@
 from typing import List
+from argparse import ArgumentParser, Namespace
 import base64
 import json
 from time import gmtime, strftime
@@ -137,10 +138,19 @@ async def kernel_statistics(statistics: CornStatistic):
     }
 
 
+def parse_args() -> Namespace:
+    parser = ArgumentParser(description='Corn analysis server')
+    parser.add_argument('--ip', required=False, type=str, default='0.0.0.0')
+    parser.add_argument('--port', required=False, type=int, default=8000)
+    return parser.parse_args()
+
+
 if __name__ == "__main__":
+    args = parse_args()
     app_log.info(
         '\n\n'
         'SERVER START TIME: {}'
         '\n'.format(strftime("%Y-%m-%d %H:%M:%S", gmtime()))
     )
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+
+    uvicorn.run(app, host=args.ip, port=args.port)
