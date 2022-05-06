@@ -114,21 +114,22 @@ async def kernel_count(corn: Corn):
 async def kernel_statistics(statistics: CornStatistic):
     _statistics = statistics.dict()
     _id = str(uuid.uuid4())
-    os.mkdir(f'./statistics/{_statistics["title"]}_{strftime("%Y-%m-%d %H:%M:%S", gmtime())}_{_id}')
+    time = strftime("%Y-%m-%d_%H-%M-%S", gmtime())
+    os.mkdir(f'./statistics/{time}_{_id}')
 
     _files = [file.split(',')[-1] for file in _statistics['images']]
     base64_images = [base64.b64decode(file) for file in _files]
     images = [Image.open(BytesIO(base64_img)).convert("RGB") for base64_img in base64_images]
 
     for num, img in enumerate(images):
-        img.save(f'./statistics/{_statistics["title"]}_{_id}/img_{num}.jpg')
+        img.save(f'./statistics/{time}_{_id}/img_{num}.jpg')
 
     data = {
         'Real number of kernels': _statistics['user_count'],
         'Predicted number of kernels': _statistics['predicted']
     }
 
-    with open(f"./statistics/{_statistics['title']}_{_id}/data.json", 'w', encoding='utf-8') as f:
+    with open(f"./statistics/{time}_{_id}/data.json", 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
 
     return {
